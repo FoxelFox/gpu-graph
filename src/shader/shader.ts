@@ -1,7 +1,7 @@
 import {gl} from "../context";
 
 class Shader {
-    create(vertexSource: string, fragmentSource: string) {
+    create(vertexSource: string, fragmentSource: string): WebGLProgram {
         const vs = this.compile(gl.VERTEX_SHADER, vertexSource);
         const fs = this.compile(gl.FRAGMENT_SHADER, fragmentSource);
 
