@@ -2,13 +2,14 @@ import {gl} from "../context";
 import {VertexPointer} from "./interfaces";
 
 export class Triangle {
-    positions = [
+    rawPositions = [
         0, 0,
         0, 0.5,
         0.7, 0,
     ];
 
-    buffer: WebGLBuffer;
+    position: WebGLBuffer;
+
     vertexPointer: VertexPointer = {
         size: 2,
         type: gl.FLOAT,
@@ -18,9 +19,9 @@ export class Triangle {
     };
 
     constructor() {
-        this.buffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.positions), gl.STATIC_DRAW);
+        this.position = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.position);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.rawPositions), gl.STATIC_DRAW);
         gl.bindBuffer(gl.ARRAY_BUFFER, null);
     }
 

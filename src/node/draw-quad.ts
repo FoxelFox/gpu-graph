@@ -1,26 +1,24 @@
 import {Basic} from "../shader/basic/basic";
-import {Triangle} from "../data/triangle";
 import {gl} from "../context";
+import {Quad} from "../data/quad";
 
-export class DrawTriangle {
+export class DrawQuad {
 
-    data: Triangle;
+    data: Quad;
     shader: Basic;
 
     vao: WebGLVertexArrayObject;
 
     constructor() {
-        this.data = new Triangle();
+        this.data = new Quad();
         this.shader = new Basic();
         this.vao = gl.createVertexArray();
 
-
-
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.data.buffer);
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.data.position);
         gl.bindVertexArray(this.vao);
-        gl.enableVertexAttribArray(this.shader.a_position);
+        gl.enableVertexAttribArray(this.shader.position);
         gl.vertexAttribPointer(
-            this.shader.a_position,
+            this.shader.position,
             this.data.vertexPointer.size,
             this.data.vertexPointer.type,
             this.data.vertexPointer.normalize,
@@ -35,6 +33,6 @@ export class DrawTriangle {
     run() {
         gl.useProgram(this.shader.program);
         gl.bindVertexArray(this.vao);
-        gl.drawArrays(gl.TRIANGLES, 0, 3);
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
     }
 }
