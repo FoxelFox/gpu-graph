@@ -6,6 +6,6 @@ in vec2 texCoord;
 out vec4 outColor;
 
 void main() {
-//   outColor = texture(image, texCoord);
+//   outColor = webGLTexture(image, texCoord);
 outColor = vec4(1, 0, 0.5, 1);
 }
