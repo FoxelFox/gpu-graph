@@ -1,29 +1,31 @@
-import {Basic} from "../shader/basic/basic";
 import {gl} from "../context";
 import {Quad} from "../data/quad";
+import {Shader, sr} from "../shader/shader";
 
 export class DrawQuad {
 
-    data: Quad;
-    shader: Basic;
-
+    quad: Quad;
+    shader: Shader;
     vao: WebGLVertexArrayObject;
 
     constructor() {
-        this.data = new Quad();
-        this.shader = new Basic();
+        this.shader = sr.basic;
+    }
+
+    initVertex() {
+        this.quad = new Quad();
         this.vao = gl.createVertexArray();
 
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.data.position);
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.quad.position);
         gl.bindVertexArray(this.vao);
-        gl.enableVertexAttribArray(this.shader.position);
+        gl.enableVertexAttribArray(this.shader.getAttributeLocation("position"));
         gl.vertexAttribPointer(
-            this.shader.position,
-            this.data.vertexPointer.size,
-            this.data.vertexPointer.type,
-            this.data.vertexPointer.normalize,
-            this.data.vertexPointer.stride,
-            this.data.vertexPointer.offset
+            this.shader.getAttributeLocation("position"),
+            this.quad.vertexPointer.size,
+            this.quad.vertexPointer.type,
+            this.quad.vertexPointer.normalize,
+            this.quad.vertexPointer.stride,
+            this.quad.vertexPointer.offset
         );
 
         gl.bindVertexArray(null);

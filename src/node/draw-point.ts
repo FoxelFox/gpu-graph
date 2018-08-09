@@ -1,31 +1,34 @@
-import {Basic} from "../shader/basic/basic";
 import {gl} from "../context";
 import {Quad} from "../data/quad";
 import {Random} from "../data/generator/random";
 import {FrameBuffer} from "../data/frame-buffer";
 import {Texture} from "../data/texture";
 import {Node} from "./node";
+import {Shader, sr} from "../shader/shader";
 
-export class DrawPoint implements Node{
+export class DrawPoint implements Node {
 
     data: Random;
-    shader: Basic;
+    shader: Shader;
 
     vao: WebGLVertexArrayObject;
     frameBuffer: FrameBuffer;
 
+    output: Texture;
+
     constructor() {
         this.data = new Random();
-        this.shader = new Basic();
+        this.shader = new Shader(require("../shader/basic/basic.vs.glsl"), require("../shader/basic/basic.fs.glsl"));
         this.vao = gl.createVertexArray();
 
-        this.frameBuffer = new FrameBuffer([new Texture(128, 128)]);
+        this.output = new Texture(16, 16);
+        this.frameBuffer = new FrameBuffer([this.output]);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, this.data.position);
         gl.bindVertexArray(this.vao);
-        gl.enableVertexAttribArray(this.shader.position);
+        gl.enableVertexAttribArray(this.shader.getAttributeLocation("position"));
         gl.vertexAttribPointer(
-            this.shader.position,
+            this.shader.getAttributeLocation("position"),
             this.data.vertexPointer.size,
             this.data.vertexPointer.type,
             this.data.vertexPointer.normalize,
@@ -38,7 +41,7 @@ export class DrawPoint implements Node{
     }
 
     run() {
-        // this.frameBuffer.bind();
+        this.frameBuffer.bind();
         gl.useProgram(this.shader.program);
         gl.bindVertexArray(this.vao);
         gl.drawArrays(gl.POINTS, 0, this.data.rawPositions.length / 2);

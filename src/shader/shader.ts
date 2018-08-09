@@ -1,12 +1,17 @@
 import {gl} from "../context";
 
-class Shader {
-    create(vertexSource: string, fragmentSource: string): WebGLProgram {
+
+
+export class Shader {
+
+    program: WebGLProgram;
+
+    constructor(vertexSource: string, fragmentSource: string) {
         const vs = this.compile(gl.VERTEX_SHADER, vertexSource);
         const fs = this.compile(gl.FRAGMENT_SHADER, fragmentSource);
 
         if (vs && fs) {
-            return this.link(vs, fs);
+            this.program = this.link(vs, fs);
         } else {
             // cleanup
             if(vs) {
@@ -16,6 +21,14 @@ class Shader {
                 gl.deleteShader(fs);
             }
         }
+    }
+
+    getAttributeLocation(name: string) {
+        return gl.getAttribLocation(this.program, name);
+    }
+
+    getUniformLocation(name: string) {
+        return gl.getUniformLocation(this.program, name);
     }
 
     private link(vs: WebGLShader, fs: WebGLShader): WebGLProgram {
@@ -43,6 +56,9 @@ class Shader {
         console.error(gl.getShaderInfoLog(shader), source);
         gl.deleteShader(shader);
     }
+
 }
 
-export const shader = new Shader();
+export const sr = {
+    basic: null
+};

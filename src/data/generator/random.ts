@@ -16,7 +16,7 @@ export class Random {
 
     constructor () {
 
-        for (let i = 0; i < 2048 * 512; ++i) {
+        for (let i = 0; i < 16 * 16; ++i) {
             this.rawPositions.push(Math.random() * 2 -1 );
         }
 
