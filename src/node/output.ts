@@ -4,51 +4,17 @@ import {Shader, sr} from "../shader/shader";
 import {Quad} from "../data/quad";
 import {gl} from "../context";
 import {Texture} from "../data/texture";
+import {Random} from "../data/generator/random";
 
-export class OutputNode implements Node {
+export class OutputNode extends Node {
 
     texture: Texture;
 
-    frameBuffer: FrameBuffer;
-    quad: Quad;
-    shader: Shader;
-    vao: WebGLVertexArrayObject;
-
     constructor() {
-        this.shader = new Shader(require("./output.vs.glsl"), require("./output.fs.glsl"));
+        super(new Shader(require("./output.vs.glsl"), require("./output.fs.glsl")), new Quad() as {});
     }
 
     init() {
-        this.quad = new Quad();
-        this.vao = gl.createVertexArray();
-
-        gl.bindVertexArray(this.vao);
-
-
-
-        // position
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.quad.position);
-        gl.enableVertexAttribArray(this.shader.getAttributeLocation("position"));
-        gl.vertexAttribPointer(
-            this.shader.getAttributeLocation("position"),
-            this.quad.vertexPointer.size,
-            this.quad.vertexPointer.type,
-            this.quad.vertexPointer.normalize,
-            this.quad.vertexPointer.stride,
-            this.quad.vertexPointer.offset
-        );
-
-        // uv
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.quad.uv);
-        gl.enableVertexAttribArray(this.shader.getAttributeLocation("a_texCoord"));
-        gl.vertexAttribPointer(
-            this.shader.getAttributeLocation("a_texCoord"),
-            this.quad.uvPointer.size,
-            this.quad.uvPointer.type,
-            this.quad.uvPointer.normalize,
-            this.quad.uvPointer.stride,
-            this.quad.uvPointer.offset
-        );
 
         // texture
         gl.activeTexture(gl.TEXTURE0);
@@ -60,8 +26,6 @@ export class OutputNode implements Node {
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 
-
-        gl.bindVertexArray(null);
         gl.bindBuffer(gl.ARRAY_BUFFER, null);
     }
 

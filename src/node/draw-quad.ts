@@ -16,16 +16,16 @@ export class DrawQuad {
         this.quad = new Quad();
         this.vao = gl.createVertexArray();
 
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.quad.position);
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.quad.position.buffer);
         gl.bindVertexArray(this.vao);
         gl.enableVertexAttribArray(this.shader.getAttributeLocation("position"));
         gl.vertexAttribPointer(
             this.shader.getAttributeLocation("position"),
-            this.quad.vertexPointer.size,
-            this.quad.vertexPointer.type,
-            this.quad.vertexPointer.normalize,
-            this.quad.vertexPointer.stride,
-            this.quad.vertexPointer.offset
+            this.quad.position.size,
+            this.quad.position.type,
+            this.quad.position.normalize,
+            this.quad.position.stride,
+            this.quad.position.offset
         );
 
         gl.bindVertexArray(null);
