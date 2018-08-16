@@ -18,5 +18,11 @@ export class DrawPoint extends Node {
         this.frameBuffer = new FrameBuffer([this.output]);
     }
 
+    run() {
+        this.frameBuffer.bind();
+        gl.useProgram(this.shader.program);
+        gl.bindVertexArray(this.vao);
+        gl.drawArrays(gl.POINTS, 0, this.attributes.position.rawData.length / 2);
+    }
 
 }

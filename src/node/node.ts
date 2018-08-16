@@ -24,10 +24,16 @@ export abstract class Node {
         gl.bindVertexArray(null);
     }
 
+    init() {
+
+    }
+
     run() {
         this.frameBuffer.bind();
         gl.useProgram(this.shader.program);
         gl.bindVertexArray(this.vao);
-        gl.drawArrays(gl.POINTS, 0, this.attributes.position.rawData.length / 2);
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
     }
+
+
 }

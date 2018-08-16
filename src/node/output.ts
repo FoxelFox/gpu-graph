@@ -33,6 +33,7 @@ export class OutputNode extends Node {
         gl.viewport(0, 0, 1024, 1024);
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
         gl.useProgram(this.shader.program);
+        gl.bindTexture(gl.TEXTURE_2D, this.texture.webGLTexture);
         gl.bindVertexArray(this.vao);
         gl.drawArrays(gl.TRIANGLES, 0, 6);
     }
