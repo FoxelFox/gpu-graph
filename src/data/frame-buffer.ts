@@ -11,17 +11,15 @@ export class FrameBuffer {
 
     constructor(public textures: Texture[], private doubleBuffered?: boolean) {
 
-        this.fb = this.createFrameBuffer();
+
         if (doubleBuffered) {
-
-
             for (let t of this.textures) {
                 t.makeDoubleBuffered();
             }
 
-            this.fb2 = this.createFrameBuffer(true);
-            this.flip();
+            this.fb2 = this.createFrameBuffer();
         }
+        this.fb = this.createFrameBuffer(doubleBuffered);
     }
 
     createFrameBuffer(doubleBuffered?: boolean) {

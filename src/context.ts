@@ -28,6 +28,14 @@ gl.clear(gl.COLOR_BUFFER_BIT);
 
 
 // new RandomPointsToFrameBuffer().run();
-new Gravity().run();
+
+let demo = new Gravity();
+
+requestAnimationFrame(loop);
+
+function loop () {
+    demo.run();
+    requestAnimationFrame(loop);
+}
 
 // batch.run();

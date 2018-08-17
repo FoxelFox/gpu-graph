@@ -8,6 +8,6 @@ out vec4 outColor;
 void main() {
 
     vec4 o = texture(image, v_texCoord);
-    o.x = 1.0;
+    o.x += 0.01;
     outColor = o;
 }
