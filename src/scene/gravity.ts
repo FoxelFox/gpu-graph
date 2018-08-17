@@ -20,15 +20,13 @@ export class Gravity {
 
 
         this.output = new OutputNode();
-        this.output.setTexture(this.gravity.frameBuffer.outputTextures[0]);
+        this.output.setTexture(this.gravity.frameBuffer.textures[0]);
         this.output.init();
 
     }
 
     run() {
         this.gravity.run();
-        this.output.setTexture(this.gravity.frameBuffer.outputTextures[0]);
         this.output.run();
-
     }
 }

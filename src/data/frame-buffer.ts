@@ -7,30 +7,30 @@ export class FrameBuffer {
 
     // for double buffering
     private fb2: WebGLFramebuffer;
-    private textures2: Texture[];
+
 
     constructor(public textures: Texture[], private doubleBuffered?: boolean) {
 
-        this.fb = this.createFrameBuffer(this.textures);
+        this.fb = this.createFrameBuffer();
         if (doubleBuffered) {
 
-            this.textures2 = [];
+
             for (let t of this.textures) {
-                this.textures2.push(t.copy());
+                t.makeDoubleBuffered();
             }
 
-            this.fb2 = this.createFrameBuffer(this.textures2);
+            this.fb2 = this.createFrameBuffer(true);
             this.flip();
         }
     }
 
-    createFrameBuffer(textures: Texture[]) {
+    createFrameBuffer(doubleBuffered?: boolean) {
         const fb = gl.createFramebuffer();
         gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
 
         let i = 0;
-        for (let texture of textures) {
-            gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0 + i, gl.TEXTURE_2D, texture.webGLTexture, 0);
+        for (let texture of this.textures) {
+            gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0 + i, gl.TEXTURE_2D, doubleBuffered ? texture.webGLTexture2 : texture.webGLTexture, 0);
             i++;
         }
 
@@ -53,21 +53,13 @@ export class FrameBuffer {
     }
 
     flip() {
-        const t = this.textures;
         const fb = this.fb;
-
-        this.textures = this.textures2;
         this.fb = this.fb2;
-
-        this.textures2 = t;
         this.fb2 = fb;
-    }
 
-    get outputTextures(): Texture[] {
-        if (this.doubleBuffered) {
-            return this.textures2;
-        } else {
-            return this.textures;
+        for (let texture of this.textures) {
+            texture.flip();
         }
     }
+
 }
