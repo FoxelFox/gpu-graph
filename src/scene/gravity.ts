@@ -2,31 +2,38 @@ import {Node} from "../node/node";
 import {GravityInitNode} from "../node/gravity/init";
 import {GravityNode} from "../node/gravity/gravity-node";
 import {OutputNode} from "../node/output";
+import {GravityPointNode} from "../node/gravity/gravity-point-node";
 
 export class Gravity {
 
 
     gravity: GravityNode;
+    points: GravityPointNode;
     output: OutputNode;
 
     constructor() {
-        const init = new GravityInitNode(16);
+        const init = new GravityInitNode(1024);
         init.init();
         init.run();
 
-        this.gravity = new GravityNode(16);
+        this.gravity = new GravityNode(1024);
         this.gravity.texture = init.output;
         this.gravity.init();
 
+        this.points = new GravityPointNode(1024);
+        this.points.data = this.gravity.texture;
+        this.points.init();
+
 
         this.output = new OutputNode();
-        this.output.setTexture(this.gravity.frameBuffer.textures[0]);
+        this.output.setTexture(this.points.frameBuffer.textures[0]);
         this.output.init();
 
     }
 
     run() {
         this.gravity.run();
+        this.points.run();
         this.output.run();
     }
 }

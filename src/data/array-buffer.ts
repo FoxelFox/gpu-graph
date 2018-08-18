@@ -11,9 +11,7 @@ export class ArrayBuffer {
     offset: number;
 
     constructor(data: number[], size: number, type: number, normalize?: boolean, stride?: number, offset?: number) {
-        switch (type) {
-            case gl.FLOAT: this.rawData = new Float32Array(data);
-        }
+
 
         this.size = size;
         this.type = type;
@@ -23,7 +21,14 @@ export class ArrayBuffer {
 
         this.buffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.rawData), gl.STATIC_DRAW);
+        gl.bufferData(gl.ARRAY_BUFFER, this.createArray(data), gl.STATIC_DRAW);
         gl.bindBuffer(gl.ARRAY_BUFFER, null);
+    }
+
+    createArray(data) {
+        switch (this.type) {
+            case gl.FLOAT: return new Float32Array(data);
+            case gl.INT: return new Int32Array(data);
+        }
     }
 }
