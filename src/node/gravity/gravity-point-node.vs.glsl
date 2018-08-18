@@ -10,5 +10,5 @@ void main() {
     texel.b = 0.0;
     texel.a = 1.0;
     gl_Position =  texel;
-    gl_PointSize = 0.5;
+    gl_PointSize = 1.0;
 }

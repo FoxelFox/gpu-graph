@@ -14,7 +14,7 @@ export class GravityInitNode extends Node {
     }
 
     init() {
-        this.output = new Texture(this.size, this.size, null, gl.RGBA16F, gl.RGBA, gl.HALF_FLOAT);
+        this.output = new Texture(this.size, this.size, null, gl.RGBA32F, gl.RGBA, gl.FLOAT);
 
         this.frameBuffer = new FrameBuffer([this.output]);
     }

@@ -12,9 +12,11 @@ void main() {
     vec2 velocity = vec2(o.z, o.w);
 
     float radius = length(position);
-    float force = clamp(1.0 / (radius * radius), -1.0, 1.0);
+    float force = clamp(1.0 / (radius * radius), -1000.0, 1000.0);
 
-    velocity -= normalize(position) * force * 0.00001;
+    velocity -= normalize(position) * force * 0.000001;
+
+    velocity *= 0.9999;
 
     position += velocity;
 

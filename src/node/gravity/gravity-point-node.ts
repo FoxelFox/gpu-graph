@@ -32,13 +32,22 @@ export class GravityPointNode extends Node {
         this.frameBuffer.bind();
         gl.viewport(0, 0, this.size, this.size);
 
-        gl.clearColor( 1.0, 1.0, 1.0, 0.0 );
-        gl.clearDepth( 1.0 );
-        gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT );
+        gl.clearColor(0,0,0,0);
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+
+        gl.enable( gl.BLEND );
+        gl.enable(gl.DEPTH_TEST);
+        gl.blendFunc(gl.ONE, gl.ONE);
 
         gl.bindTexture(gl.TEXTURE_2D, this.data.webGLTexture);
         gl.useProgram(this.shader.program);
         gl.bindVertexArray(this.vao);
         gl.drawArrays(gl.POINTS, 0, p.length / 2);
+
+
+        gl.disable( gl.BLEND );
+        gl.disable(gl.DEPTH_TEST);
+
     }
 }

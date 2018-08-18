@@ -7,7 +7,9 @@ import {Gravity} from "./scene/gravity";
 
 export const canvas = document.getElementById("c") as HTMLCanvasElement;
 export const gl = canvas.getContext("webgl2", {
-    antialias: false
+    antialias: false,
+    alpha: false,
+    premultipliedAlpha: false
 }) as WebGL2RenderingContext;
 
 
@@ -22,9 +24,10 @@ gl.getExtension("EXT_color_buffer_float");
 
 
 
+
 gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
-
+// gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 
 // new RandomPointsToFrameBuffer().run();
 
@@ -33,7 +36,9 @@ let demo = new Gravity();
 requestAnimationFrame(loop);
 
 function loop () {
+
     demo.run();
+
     requestAnimationFrame(loop);
 }
 
