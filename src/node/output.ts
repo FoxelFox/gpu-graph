@@ -2,7 +2,7 @@ import {Node} from "./node"
 import {FrameBuffer} from "../data/frame-buffer";
 import {Shader, sr} from "../shader/shader";
 import {Quad} from "../data/quad";
-import {gl} from "../context";
+import {canvas, gl} from "../context";
 import {Texture} from "../data/texture";
 import {Random} from "../data/generator/random";
 
@@ -23,7 +23,7 @@ export class OutputNode extends Node {
     }
 
     run() {
-        gl.viewport(0, 0, 1024, 1024);
+        gl.viewport(0, 0, canvas.width, canvas.height);
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
 
 

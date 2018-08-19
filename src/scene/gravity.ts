@@ -12,15 +12,15 @@ export class Gravity {
     output: OutputNode;
 
     constructor() {
-        const init = new GravityInitNode(1024);
+        const init = new GravityInitNode(4096);
         init.init();
         init.run();
 
-        this.gravity = new GravityNode(1024);
+        this.gravity = new GravityNode(4096);
         this.gravity.texture = init.output;
         this.gravity.init();
 
-        this.points = new GravityPointNode(1024);
+        this.points = new GravityPointNode();
         this.points.data = this.gravity.texture;
         this.points.init();
 

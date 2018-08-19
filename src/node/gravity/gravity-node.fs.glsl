@@ -2,6 +2,8 @@
 precision mediump float;
 
 uniform sampler2D image;
+uniform vec2 mouse;
+
 in vec2 v_texCoord;
 out vec4 outColor;
 
@@ -11,12 +13,12 @@ void main() {
     vec2 position = vec2(o.x, o.y);
     vec2 velocity = vec2(o.z, o.w);
 
-    float radius = length(position);
-    float force = clamp(1.0 / (radius * radius), -1000.0, 1000.0);
+    float radius = distance(mouse, position);
+    float force = clamp(1.0 / (radius * radius), -100.0, 100.0);
 
-    velocity -= normalize(position) * force * 0.000001;
+    velocity -= normalize(position - mouse) * force * 0.000001;
 
-    velocity *= 0.9999;
+    velocity *= 0.999;
 
     position += velocity;
 

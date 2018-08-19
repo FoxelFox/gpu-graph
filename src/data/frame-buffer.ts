@@ -59,5 +59,4 @@ export class FrameBuffer {
             texture.flip();
         }
     }
-
 }
