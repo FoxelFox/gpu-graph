@@ -1,8 +1,8 @@
 import {canvas} from "../context";
 
 class User {
-    mpX: number;
-    mpY: number;
+    mpX: number = 0;
+    mpY: number = 0;
 
     constructor() {
         document.addEventListener("mousemove", (e) => {
