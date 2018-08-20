@@ -19,9 +19,24 @@
                 display: block;
             }
         </style>
+
     </head>
-    <body>
-        <canvas id="c" width="1024" height="1024" style="image-rendering: pixelated;"></canvas>
+
+    <script>
+        function log() {
+            console.log("blub")
+        }
+    </script>
+    <body style="background-color: black">
+        <div id="settings" style="background-color: black; padding-left: 24px">
+            <h2 style="color: white">Select Quality</h2>
+            <button onclick="getSettings().Size = 512; start()">low</button>
+            <button onclick="getSettings().Size = 1024; start()">mid</button>
+            <button onclick="getSettings().Size = 2048; start()">high</button>
+            <button onclick="getSettings().Size = 4096; start()">ultra</button>
+        </div>
+
+        <canvas id="c" width="512" height="512" style="image-rendering: pixelated;"></canvas>
     </body>
     <script src="bundle.js"></script>
 </html>

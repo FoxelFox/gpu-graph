@@ -1,27 +1,20 @@
 import {Node} from "../node"
 import {Shader} from "../../shader/shader";
-import {Quad} from "../../data/quad";
 import {Texture} from "../../data/texture";
 import {FrameBuffer} from "../../data/frame-buffer";
 import {canvas, gl} from "../../context";
 import {ArrayBuffer} from "../../data/array-buffer";
+import {settings} from "../../input/settings";
 
 
-const p = [];
 
-for (let x = 0; x < 4096; ++x) {
-    for (let y = 0; y < 4096; ++y) {
-        p.push(x);
-        p.push(y);
-    }
-}
 
 export class GravityPointNode extends Node {
 
     data: Texture;
 
     constructor () {
-        super(new Shader(require("./gravity-point-node.vs.glsl"), require("./gravity-point-node.fs.glsl")),  { index: new ArrayBuffer(p, 2, gl.INT) })
+        super(new Shader(require("./gravity-point-node.vs.glsl"), require("./gravity-point-node.fs.glsl")),  { index: new ArrayBuffer(settings.indices, 2, gl.INT) })
     }
 
     init() {
@@ -47,7 +40,7 @@ export class GravityPointNode extends Node {
         gl.uniform1f(this.shader.getUniformLocation("ar"), canvas.height / canvas.width);
 
         gl.bindVertexArray(this.vao);
-        gl.drawArrays(gl.POINTS, 0, p.length / 2);
+        gl.drawArrays(gl.POINTS, 0, settings.indices.length / 2);
 
 
         gl.disable( gl.BLEND );

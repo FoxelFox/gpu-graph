@@ -3,6 +3,7 @@ import {GravityInitNode} from "../node/gravity/init";
 import {GravityNode} from "../node/gravity/gravity-node";
 import {OutputNode} from "../node/output";
 import {GravityPointNode} from "../node/gravity/gravity-point-node";
+import {settings} from "../input/settings";
 
 export class Gravity {
 
@@ -12,11 +13,11 @@ export class Gravity {
     output: OutputNode;
 
     constructor() {
-        const init = new GravityInitNode(4096);
+        const init = new GravityInitNode(settings.size);
         init.init();
         init.run();
 
-        this.gravity = new GravityNode(4096);
+        this.gravity = new GravityNode(settings.size);
         this.gravity.texture = init.output;
         this.gravity.init();
 
