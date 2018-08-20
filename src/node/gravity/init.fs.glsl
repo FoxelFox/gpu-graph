@@ -1,5 +1,5 @@
 #version 300 es
-precision mediump float;
+precision highp float;
 
 uniform sampler2D image;
 in vec2 v_texCoord;
@@ -14,8 +14,8 @@ float gold_noise(vec2 coordinate, float seed){
 }
 
 void main() {
-    float rx = gold_noise(v_texCoord.xy, 1.0);
-    float ry = gold_noise(v_texCoord.xy, 4.0);
+    float rx = gold_noise(v_texCoord.xy, v_texCoord.y);
+    float ry = gold_noise(v_texCoord.xy, v_texCoord.x);
 
 
 
@@ -24,10 +24,10 @@ void main() {
     // n += vec2(ry - 0.5, rx -0.5);
 
     outColor = vec4(
-        n.x,
-        n.y,
-        n.y * ry * 0.001,
-        n.x * rx * 0.001
+        v_texCoord.x * 2.0 - 1.0,
+        v_texCoord.y * 2.0 - 1.0,
+        (rx - 0.5) * 0.001,
+        (ry - 0.5) * 0.001
     );
 }
 

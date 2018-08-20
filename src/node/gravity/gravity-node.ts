@@ -30,6 +30,7 @@ export class GravityNode extends Node {
         gl.useProgram(this.shader.program);
 
         gl.uniform2f (this.shader.getUniformLocation("mouse"),  user.mpX, user.mpY);
+        gl.uniform1f(this.shader.getUniformLocation("forceActive"), user.force);
 
         gl.bindVertexArray(this.vao);
         gl.drawArrays(gl.TRIANGLES, 0, 6);

@@ -1,8 +1,9 @@
 #version 300 es
-precision mediump float;
+precision highp float;
 
 uniform sampler2D image;
 uniform vec2 mouse;
+uniform float forceActive;
 
 in vec2 v_texCoord;
 out vec4 outColor;
@@ -16,7 +17,7 @@ void main() {
     float radius = distance(mouse, position);
     float force = clamp(1.0 / (radius * radius), -100.0, 100.0);
 
-    velocity -= normalize(position - mouse) * force * 0.000001;
+    velocity -= normalize(position - mouse) * force * 0.000001 * forceActive;
 
     velocity *= 0.999;
 
