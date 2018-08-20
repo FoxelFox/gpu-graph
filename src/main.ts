@@ -1,14 +1,20 @@
 import "./context";
 import {startCompute} from "./context";
-import {settings} from "./input/settings";
+import {Settings, settings} from "./input/settings";
+import "./global.css";
 
-console.log("hello");
+declare global {
+    interface Window { 
+        getSettings: () => Settings;
+        start: () => void;
+    }
+}
 
-window["getSettings"] = () => {
+window.getSettings = () => {
     return settings;
 };
 
-window["start"] = () => {
+window.start = () => {
     document.getElementById("settings").hidden = true;
     startCompute();
 };

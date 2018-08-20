@@ -61,4 +61,4 @@ typings/
 .next
 
 # project
-dist
+public
