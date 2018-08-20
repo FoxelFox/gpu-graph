@@ -15,13 +15,19 @@ void main() {
     vec2 velocity = vec2(o.z, o.w);
 
     float radius = distance(mouse, position);
-    float force = clamp(1.0 / (radius * radius), -100.0, 100.0);
+    float force = clamp(1.0 / (radius * radius), -800.0, 800.0);
 
     velocity -= normalize(position - mouse) * force * 0.000001 * forceActive;
 
-    velocity *= 0.999;
+
+
 
     position += velocity;
+
+    if (length(position) > 0.8 ) {
+        velocity *= (1.0 - length(position) * 0.01);
+    }
+
 
     outColor = vec4(position, velocity);
 }

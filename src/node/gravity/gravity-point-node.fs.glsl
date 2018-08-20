@@ -15,9 +15,9 @@ void main() {
 
 
     float r = clamp(v, 0.01, 1.0);
-    float b = clamp(1.0/ (v* 50.0), 0.01, 1.0);
+    float b = clamp(1.0/ (v* 50.0), 0.5, 1.0);
     float g = clamp(1.0 - (r+b), 0.02, 1.0);
 
 
-    outColor = vec4(r, g, b, 0.1);
+    outColor = vec4(r, 0.1, b, 0.1);
 }
