@@ -1,0 +1,25 @@
+/* remove the border */
+body {
+    border: 0;
+    background-color: black;
+    margin: 0;
+    overflow: hidden;
+}
+/* make the canvas the size of the viewport */
+canvas {
+    width: 100vw;
+    height: 100vh;
+    image-rendering: pixelated;
+    display: block;
+}
+
+div#settings
+{
+    background-color: black;
+    padding-left: 24px;
+}
+
+div#settings h2
+{
+    color: white;
+}
