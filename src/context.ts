@@ -22,10 +22,9 @@ export function startCompute() {
 
     requestAnimationFrame(loop);
 
-    function loop () {
+    async function loop () {
         resize();
-        demo.run();
-
+        await demo.run();
         requestAnimationFrame(loop);
     }
 
