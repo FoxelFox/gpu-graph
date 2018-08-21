@@ -12,36 +12,40 @@ let zip = new JSZip();
 let img = zip.folder("images");
 let recording = false;
 const draw = async i => {
-    if (i % 2048 == 0) {
-        await save();
-    }
-      const data = canvas
-        .toDataURL("image/png")
-        .substr("data:image/png;base64,".length);
-      img.file(`${i}.png`, data, { base64: true });
-    };
-
-const save = async () => {
-     let postfix = Math.floor(i / 2048);
-     const blob = await zip.generateAsync({type: "blob"});
-        const dataURL = URL.createObjectURL(blob);
-        const anchor = document.createElement("a");
-        anchor.href = dataURL;
-        anchor.download = `wiedeo${postfix}.zip`;
-        anchor.click();
-    zip = new JSZip();
-    img = zip.folder("images");
+  if (i > 0 && i % 512 == 0) {
+    await save();
+  }
+  const data = canvas
+    .toDataURL("image/png")
+    .substr("data:image/png;base64,".length);
+  img.file(`${i}.png`, data, { base64: true });
 };
 
-window.addEventListener('keydown', event => {
-    if(event.key == "r") {
-        recording = !recording;
-        console.log('recording:', recording);
-    } else if(event.key == "s") {
-        if (recording) return;
-        console.log('saving');
-        save();
-    }
+const save = async () => {
+  let postfix = Math.floor(i / 512);
+  const blob = await zip.generateAsync({ type: "blob" });
+  const dataURL = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = dataURL;
+  anchor.download = `wiedeo${postfix}.zip`;
+  anchor.click();
+  zip = new JSZip();
+  img = zip.folder("images");
+};
+
+window.addEventListener("keydown", event => {
+  if (event.key == "r") {
+    recording = !recording;
+    console.log("recording:", recording);
+  } else if (event.key == "s") {
+    if (recording) {
+        recording = false;
+        console.log('recording disabled');
+    };
+    console.log("saving");
+    save();
+  }
+  document.getElementById('recording').hidden = !recording;
 });
 
 export class Gravity {

@@ -34,3 +34,12 @@ div#settings h2
 {
     color: white;
 }
+
+div#recording
+{
+    position: fixed;
+    color: crimson;
+    font-size: 24px;
+    bottom: 30px;
+    right: 30px;
+}
