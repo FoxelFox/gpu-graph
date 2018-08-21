@@ -12,12 +12,12 @@ let zip = new JSZip();
 let img = zip.folder("images");
 let recording = false;
 const draw = async i => {
-  if (i > 0 && i % 512 == 0) {
-    await save();
-  }
   const data = canvas
     .toDataURL("image/png")
     .substr("data:image/png;base64,".length);
+  if (i > 0 && i % 512 == 0) {
+    await save();
+  }
   img.file(`${i}.png`, data, { base64: true });
 };
 
