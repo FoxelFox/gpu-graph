@@ -5,17 +5,45 @@ uniform sampler2D image;
 in vec2 v_texCoord;
 out vec4 outColor;
 
-float PHI = 1.61803398874989484820459 * 00000.1; // Golden Ratio
-float PI  = 3.14159265358979323846264 * 00000.1; // PI
-float SQ2 = 1.41421356237309504880169 * 10000.0; // Square Root of Two
+float rand( vec2 pos ) {
+	return fract( sin( dot( pos, vec2( 12.235, 67.532 ) ) ) * 43289.24 );
+}
 
-float gold_noise(vec2 coordinate, float seed){
-    return fract(tan(distance(coordinate*(seed+PHI), vec2(PHI, PI)))*SQ2);
+vec2 rand2( vec2 pos ) {
+	return fract( sin(
+		vec2( dot( pos, vec2( 12.235, 67.532 ) ) , dot( pos, vec2( 142.32, 93.91 ) ) )
+	) * 43289.24 );
+}
+
+float noise( vec2 pos ) {
+	vec2 ip = floor( pos );
+	vec2 fp = smoothstep(0.,1., fract(pos));
+	vec2 a  = vec2(
+		rand( ip + vec2( 0.0, 0.0 ) ),
+		rand( ip + vec2( 1.0, 0.0 ) )
+	);
+	vec2 b  = vec2(
+		rand( ip + vec2( 0.0, 1.0 ) ),
+		rand( ip + vec2( 1.0, 1.0 ) )
+	);
+	a = mix( a, b, fp.y );
+	return mix( a.x, a.y, fp.x );
+}
+
+float perlin( vec2 pos ) {
+	return  ( noise( pos ) * 32. +
+		noise( pos * 2. ) * 16. +
+		noise( pos * 4. ) * 8. +
+		noise( pos * 8. ) * 4. +
+		noise( pos * 16.) * 2. +
+		noise( pos * 32.)) / 63.;
 }
 
 void main() {
-    float rx = gold_noise(v_texCoord.xy, v_texCoord.y);
-    float ry = gold_noise(v_texCoord.xy, v_texCoord.x);
+    float rx = perlin(v_texCoord.xy * 16.0);
+    float ry = perlin(v_texCoord.xy * 16.0);
+
+
 
 
 
@@ -23,11 +51,13 @@ void main() {
 
     // n += vec2(ry - 0.5, rx -0.5);
 
+    vec2 p = vec2((v_texCoord.x * 2.0 - 1.0) * rx, (v_texCoord.y * 2.0 - 1.0) * ry);
+
     outColor = vec4(
-        v_texCoord.x * 2.0 - 1.0,
-        v_texCoord.y * 2.0 - 1.0,
-        (rx - 0.5) * 0.001,
-        (ry - 0.5) * 0.001
+        (v_texCoord.x * 2.0 - 1.0),
+        (v_texCoord.y * 2.0 - 1.0),
+        p.x * 0.001,
+        p.y * 0.001
     );
 }
 
