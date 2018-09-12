@@ -20,8 +20,8 @@ void main() {
     // velocity -= normalize(position - mouse) * force * 0.01 * forceActive;
 
     if (forceActive < 0.1) {
-        for (int x = 0; x < 256; x++) {
-            for (int y = 0; y < 256; y++) {
+        for (int x = 0; x < 64; x++) {
+            for (int y = 0; y < 64; y++) {
 
                 vec2 p = texelFetch(image, ivec2(x, y), 0).xy;
 
@@ -30,9 +30,9 @@ void main() {
                     float radius = distance(p, position);
 
 
-                    float force = clamp(1.0 / (radius * radius), 0.0, 1000000.0);
+                    float force = clamp(1.0 / (radius * radius), 0.0, 100.0);
 
-                    velocity -= normalize(position - p) * force * 0.0000000002;
+                    velocity -= normalize(position - p) * force * 0.000001;
 
 
                 }

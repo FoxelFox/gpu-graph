@@ -19,5 +19,5 @@ void main() {
     float g = clamp(1.0 - (r+b), 0.02, 1.0);
 
 
-    outColor = vec4(r, 0.1, b, 0.1);
+    outColor = vec4(r, b, 0.1, 0.1);
 }
