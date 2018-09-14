@@ -32,7 +32,7 @@ export class GravityPointNode extends Node {
 
         gl.enable( gl.BLEND );
         gl.enable(gl.DEPTH_TEST);
-        gl.blendFunc(gl.ONE, gl.ONE);
+        gl.blendFunc(gl.SRC_COLOR, gl.ONE);
 
         gl.bindTexture(gl.TEXTURE_2D, this.data.webGLTexture);
         gl.useProgram(this.shader.program);
