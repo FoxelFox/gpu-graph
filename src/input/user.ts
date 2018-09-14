@@ -3,7 +3,7 @@ import {canvas} from "../context";
 class User {
     mpX: number = 0;
     mpY: number = 0;
-    force: number = 1.0;
+    force: number = 0.0;
 
     constructor() {
         document.addEventListener("mousemove", (e) => {

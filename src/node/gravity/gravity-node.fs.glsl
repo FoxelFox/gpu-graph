@@ -34,22 +34,18 @@ void main() {
 
 
 
-                    if (radius > mouse.x) {
-                        velocity -= normalize(position - p) * force * 0.00000025;
+                    if (radius > (mouse.x * 0.5 + 0.5)) {
+                        velocity -= normalize(position - p) * force * 0.000000025;
                     } else {
-                        velocity += normalize(position - p) * force * 0.00000025;
+                        velocity += normalize(position - p) * force * 0.000000025;
                     }
 
                 }
             }
         }
-
-        if (length(velocity) > 0.005) {
-            velocity *= 0.8;
-        }
-    } else {
-        velocity *= 0.98;
     }
+    velocity *= 0.99;
+
 
 
 

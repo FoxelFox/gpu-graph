@@ -18,3 +18,6 @@ window.start = () => {
     document.getElementById("settings").hidden = true;
     startCompute();
 };
+
+window.getSettings().Size = 128;
+window.start();
