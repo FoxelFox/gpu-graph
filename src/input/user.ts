@@ -7,6 +7,7 @@ class User {
     movementY: number = 0;
     positionX: number = 0;
     positionY: number = 0;
+    wheel: number = 0;
     force: number = 0.0;
     mousePressed: boolean;
 
@@ -38,6 +39,10 @@ class User {
 
         document.addEventListener("mousedown", () => {
             this.mousePressed = true;
+        });
+
+        document.addEventListener("mousewheel", (e) => {
+            this.wheel += e.deltaY;
         });
 
     }

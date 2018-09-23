@@ -45,13 +45,13 @@ export class GravityPointNode extends Node {
 
 
         if (user.mousePressed) {
-            quat.rotateX(this.rotation, this.rotation, -user.movementY * 0.01);
-            quat.rotateY(this.rotation, this.rotation, -user.movementX * 0.01);
+            quat.rotateX(this.rotation, this.rotation, -user.movementY * 0.005);
+            quat.rotateY(this.rotation, this.rotation, -user.movementX * 0.005);
         }
 
 
         mat4.identity(this.translation);
-        mat4.translate(this.translation, this.translation, [0, 0, -2]);
+        mat4.translate(this.translation, this.translation, [0, 0, -(Math.pow(user.wheel * 0.001 + 2.0, 3) * 0.25)]);
         const ar = canvas.width / canvas.height;
         mat4.perspective(this.view, 1.5, ar, 0, 2);
         //mat4.perspectiveFromFieldOfView(this.view, {upDegrees: 45, downDegrees: 45, leftDegrees: 45 * ar, rightDegrees: 45 * ar},0, 2);
