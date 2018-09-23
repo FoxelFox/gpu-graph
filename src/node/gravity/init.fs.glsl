@@ -56,7 +56,7 @@ void main() {
     outColor = vec4(
         (v_texCoord.x * 2.0 - 1.0),
         (v_texCoord.y * 2.0 - 1.0),
-        0.0,
+        rx * 0.5 + 0.5,
         0.0
     );
 }

@@ -1,4 +1,5 @@
 import {Gravity} from "./scene/gravity";
+import {user} from "./input/user";
 
 export const canvas = document.getElementById("c") as HTMLCanvasElement;
 export const gl = canvas.getContext("webgl2", {
@@ -25,7 +26,10 @@ export function startCompute() {
     async function loop () {
         resize();
         await demo.run();
+        user.movementX = 0;
+        user.movementY = 0;
         requestAnimationFrame(loop);
+
     }
 
     function resize() {

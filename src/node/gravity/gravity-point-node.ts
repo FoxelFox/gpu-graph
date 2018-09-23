@@ -5,16 +5,22 @@ import {FrameBuffer} from "../../data/frame-buffer";
 import {canvas, gl} from "../../context";
 import {ArrayBuffer} from "../../data/array-buffer";
 import {settings} from "../../input/settings";
-
-
+import {mat4, quat, vec3} from "gl-matrix";
+import {user} from "../../input/user";
 
 
 export class GravityPointNode extends Node {
 
     data: Texture;
+    view: mat4 = mat4.create();
+    rotation: quat = quat.create();
+    translation: mat4 = mat4.create();
 
     constructor () {
         super(new Shader(require("./gravity-point-node.vs.glsl"), require("./gravity-point-node.fs.glsl")),  { index: new ArrayBuffer(settings.indices, 2, gl.INT) })
+
+        quat.identity(this.rotation);
+        console.log(this.view);
     }
 
     init() {
@@ -37,7 +43,26 @@ export class GravityPointNode extends Node {
         gl.bindTexture(gl.TEXTURE_2D, this.data.webGLTexture);
         gl.useProgram(this.shader.program);
 
+
+        if (user.mousePressed) {
+            quat.rotateX(this.rotation, this.rotation, -user.movementY * 0.01);
+            quat.rotateY(this.rotation, this.rotation, -user.movementX * 0.01);
+        }
+
+
+        mat4.identity(this.translation);
+        mat4.translate(this.translation, this.translation, [0, 0, -2]);
+        const ar = canvas.width / canvas.height;
+        mat4.perspective(this.view, 1.5, ar, 0, 2);
+        //mat4.perspectiveFromFieldOfView(this.view, {upDegrees: 45, downDegrees: 45, leftDegrees: 45 * ar, rightDegrees: 45 * ar},0, 2);
+        const rot = mat4.create();
+        mat4.fromQuat(rot, this.rotation);
+        gl.uniformMatrix4fv(this.shader.getUniformLocation("view"), true, this.view);
+        gl.uniformMatrix4fv(this.shader.getUniformLocation("rotation"), false, rot);
+        gl.uniformMatrix4fv(this.shader.getUniformLocation("translation"), true, this.translation);
+
         gl.uniform1f(this.shader.getUniformLocation("ar"), canvas.height / canvas.width);
+
 
         gl.bindVertexArray(this.vao);
         gl.drawArrays(gl.POINTS, 0, settings.indices.length / 2);
