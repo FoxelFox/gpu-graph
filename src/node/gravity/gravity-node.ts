@@ -5,35 +5,64 @@ import {Texture} from "../../data/texture";
 import {FrameBuffer} from "../../data/frame-buffer";
 import {gl} from "../../context";
 import {user} from "../../input/user";
+import {Texture3} from "../../data/texture3";
+import {settings} from "../../input/settings";
 
 export class GravityNode extends Node {
 
-    texture: Texture;
+	texture: Texture;
+	edges: Texture3;
 
-    constructor (public size: number) {
-        super(new Shader(require("./gravity-node.vs.glsl"), require("./gravity-node.fs.glsl")),  new Quad() as {})
-    }
+	constructor(public size: number) {
+		super(new Shader(require("./gravity-node.vs.glsl"), require("./gravity-node.fs.glsl")), new Quad() as {})
+	}
 
-    init() {
-        this.frameBuffer = new FrameBuffer([this.texture], true);
+	init() {
+		this.frameBuffer = new FrameBuffer([this.texture], true);
 
-        // texture
-        gl.activeTexture(gl.TEXTURE0);
-        gl.bindTexture(gl.TEXTURE_2D, this.texture.webGLTexture);
+		// texture
+		gl.activeTexture(gl.TEXTURE0);
+		gl.bindTexture(gl.TEXTURE_2D, this.texture.webGLTexture);
 
-    }
 
-    run() {
-        this.frameBuffer.bind();
-        gl.viewport(0, 0, this.size, this.size);
-        gl.bindTexture(gl.TEXTURE_2D, this.texture.webGLTexture);
-        gl.useProgram(this.shader.program);
+		console.log(Math.random());
 
-        gl.uniform2f (this.shader.getUniformLocation("mouse"),  user.mpX, user.mpY);
-        gl.uniform1f(this.shader.getUniformLocation("forceActive"), user.force);
+		let edges = [];
+		for (let x = 0; x < settings.size; ++x) {
+			for (let y = 0; y < settings.size; ++y) {
+				for (let z = 0; z < settings.edges; ++z) {
+					edges.push(Math.random() * settings.size, Math.random() * settings.size, Math.random(), 0);
+				}
+			}
+		}
 
-        gl.bindVertexArray(this.vao);
-        gl.drawArrays(gl.TRIANGLES, 0, 6);
-        this.frameBuffer.flip();
-    }
+		this.edges = new Texture3(settings.size, settings.size, 4, new Float32Array(edges),  gl.RGBA32F, gl.RGBA, gl.FLOAT);
+
+	}
+
+	run() {
+		this.frameBuffer.bind();
+		gl.viewport(0, 0, this.size, this.size);
+
+		gl.useProgram(this.shader.program);
+
+		// position texture
+		gl.uniform1i(this.shader.getUniformLocation("image"), 0);
+		gl.activeTexture(gl.TEXTURE0);
+		gl.bindTexture(gl.TEXTURE_2D, this.texture.webGLTexture);
+
+		// edges texture
+		gl.uniform1i(this.shader.getUniformLocation("edges"), 1);
+		gl.activeTexture(gl.TEXTURE1);
+		gl.bindTexture(gl.TEXTURE_3D, this.edges.webGLTexture);
+
+
+
+		gl.uniform2f(this.shader.getUniformLocation("mouse"), user.mpX, user.mpY);
+		gl.uniform1f(this.shader.getUniformLocation("forceActive"), user.force);
+
+		gl.bindVertexArray(this.vao);
+		gl.drawArrays(gl.TRIANGLES, 0, 6);
+		this.frameBuffer.flip();
+	}
 }

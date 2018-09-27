@@ -19,5 +19,5 @@ window.start = () => {
     startCompute();
 };
 
-window.getSettings().Size = 128;
+window.getSettings().Size = 512;
 window.start();

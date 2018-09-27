@@ -1,7 +1,9 @@
 #version 300 es
 precision highp float;
+precision mediump sampler3D;
 
 uniform sampler2D image;
+uniform sampler3D edges;
 uniform vec2 mouse;
 uniform float forceActive;
 
@@ -20,26 +22,49 @@ void main() {
 //    velocity -= normalize(position - vec3(0.0, 0.0, 0.0)) * force * 0.00005;
 
 
+
+
     if (forceActive < 0.1) {
-        for (int x = 0; x < 128; x++) {
-            for (int y = 0; y < 128; y++) {
+        for (int x = 0; x < 16; x++) {
 
-                vec3 p = texelFetch(image, ivec2(x, y), 0).xyz;
+            vec3 ref = texelFetch(edges, ivec3(v_texCoord.x,v_texCoord.y, x), 0).xyz;
+            vec3 p = texelFetch(image, ivec2(ref.x, ref.y), 0).xyz;
 
-                if (!(p.x == position.x && p.y == position.y)) {
-                    float radius = distance(p, position);
-                    float force = 1.0 / (radius * radius);
+            if (!(p.x == position.x && p.y == position.y)) {
+                float radius = distance(p, position);
+                float force = ref.z;
 
-                    if (radius > 1.0) {
-                        velocity -= normalize(position - p) * force * 0.000005;
-                    } else {
-                        velocity += normalize(position - p) * force * 0.000005;
-                    }
-
+                if (radius > 1.0 - ref.z) {
+                    velocity -= normalize(position - p) * ref.z * 0.005;
+                } else {
+                    velocity += normalize(position - p) * 1.0 * 0.01;
                 }
+
             }
+
         }
-        position *= 0.9;
+
+//         for (int x = 0; x < 512; x++) {
+//                for (int y = 0; y < 512; y++) {
+//
+//                    vec3 p = texelFetch(image, ivec2(x, y), 0).xyz;
+//
+//                    if (!(p.x == position.x && p.y == position.y)) {
+//                        float radius = distance(p, position);
+//
+//
+//                        if (radius > 1.0) {
+//
+//                        } else {
+//                            float force = 1.0 / (radius * radius);
+//                            velocity += normalize(position - p) * force * 0.0000005;
+//                        }
+//
+//                    }
+//                }
+//            }
+            position *= 0.98;
+
     }
 
     position += velocity;
