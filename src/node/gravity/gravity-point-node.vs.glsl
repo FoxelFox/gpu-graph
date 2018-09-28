@@ -20,5 +20,5 @@ void main() {
 
     gl_Position = vec4(position, 1.0) * rotation * translation * view;
     use = vec2(texel.w, 0.0);
-    gl_PointSize = clamp(1.0 / (gl_Position.z * 0.25), 1.0, 64.0);
+    gl_PointSize = clamp(4.0 / (gl_Position.z * 0.25), 1.0, 64.0);
 }

@@ -35,11 +35,11 @@ void main() {
                         float radius = distance(p, position);
                         float force = ref.z;
 
-                        if (radius > 0.2) {
+                        //if (radius > 0.2) {
                             velocity -= normalize(position - p) * force * 0.01;
-                        } else {
+                        //} else {
                             //velocity += normalize(position - p) * force * 0.005;
-                        }
+                        //}
 
                     }
                 }
@@ -52,18 +52,18 @@ void main() {
                         vec4 pp = texelFetch(image, ivec2(x, y), 0);
 
 
-                        if(pp.w > 0.5) {
+                        if(pp.w > 0.55) {
                             vec3 p = pp.xyz;
                             if (!(p.x == position.x && p.y == position.y)) {
                                 float radius = distance(p, position);
                                 float force = 1.0 / (radius * radius);
 
-                                if (radius > 1.0) {
+                                //if (radius > 1.0) {
                                     // velocity -= normalize(position - p) * force * 0.0000005;
-                                } else {
+                                //} else {
 
-                                    velocity += normalize(position - p) * force * 0.0000005;
-                                }
+                                    velocity += normalize(position - p) * 0.00001 * clamp(force, 0.0, 1024.0);
+                                //}
 
                             }
                         }
@@ -71,8 +71,10 @@ void main() {
 
                     }
                 }
+                 position *= 0.999;
             }
     }
+
 
 
 
