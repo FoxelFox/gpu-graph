@@ -24,19 +24,9 @@ export class GravityNode extends Node {
 		gl.activeTexture(gl.TEXTURE0);
 		gl.bindTexture(gl.TEXTURE_2D, this.texture.webGLTexture);
 
+		settings.data.length = 64 * 64 * 8 * 4;
 
-		console.log(Math.random());
-
-		let edges = [];
-		for (let x = 0; x < settings.size; ++x) {
-			for (let y = 0; y < settings.size; ++y) {
-				for (let z = 0; z < settings.edges; ++z) {
-					edges.push(Math.random() * settings.size, Math.random() * settings.size, Math.random(), 0);
-				}
-			}
-		}
-
-		this.edges = new Texture3(settings.size, settings.size, 4, new Float32Array(edges),  gl.RGBA32F, gl.RGBA, gl.FLOAT);
+		this.edges = new Texture3( 8, 64, 64 , new Float32Array(settings.data),  gl.RGBA32F, gl.RGBA, gl.FLOAT);
 
 	}
 

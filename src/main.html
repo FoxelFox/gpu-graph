@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 
     <head>
         <meta charset="utf-8">
@@ -9,16 +9,8 @@
 
     <body>
         <div id="settings">
-            <h2>Select Quality</h2>
-            <button onclick="getSettings().Size = 128; start()">bad</button>
-            <!--<button onclick="getSettings().Size = 512; start()">low</button>-->
-            <!--<button onclick="getSettings().Size = 1024; start()">mid</button>-->
-            <!--<button onclick="getSettings().Size = 2048; start()">high</button>-->
-            <!--<button onclick="getSettings().Size = 4096; start()">ultra</button>-->
-            <h3>News schmoos</h3>
-            <ul>
-                <li>Added recording support press <b>r</b> to toggle recording on and off and <b>s</b> to save to file.</li>
-            </ul>
+            <input type="file" id="file-selector" accept=".csv">
+
         </div>
         <canvas id="c" width="512" height="512"></canvas>
         <div id="recording" hidden><span>REC</span></div>

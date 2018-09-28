@@ -2,6 +2,7 @@ export class Settings {
 	size: number = 512;
 	edges: number = 16;
 	indices: number[];
+	data
 
 	set Size(s) {
 		this.size = s;
