@@ -26,7 +26,7 @@ export class GravityNode extends Node {
 
 		settings.data.length = 64 * 64 * 8 * 4;
 
-		this.edges = new Texture3( 8, 64, 64 , new Float32Array(settings.data),  gl.RGBA32F, gl.RGBA, gl.FLOAT);
+		this.edges = new Texture3( 8, 64, 64, new Float32Array(settings.data),  gl.RGBA32F, gl.RGBA, gl.FLOAT);
 
 	}
 

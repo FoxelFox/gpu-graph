@@ -2,6 +2,7 @@
 precision highp float;
 
 in vec3 position;
+in vec2 use;
 out vec4 outColor;
 
 
@@ -15,5 +16,5 @@ void main() {
     float b = position.z * 0.5 + 0.5;
 
 
-    outColor = vec4(r, g, b, 1.0);
+    outColor = vec4(use.x, use.x, use.x, use.x);
 }

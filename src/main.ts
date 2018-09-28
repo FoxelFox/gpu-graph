@@ -44,7 +44,7 @@ function parse(lines: string[]) {
 		const force = parseFloat(v[2]);
 
 		if (maxForce < force) {
-			console.log(force);
+
 			maxForce = force < 500 ? force : maxForce;
 		}
 
@@ -88,8 +88,9 @@ function parse(lines: string[]) {
 		}
 	}
 
-	console.log(maxForce);
+	console.log(Object.keys(map).length);
 
+	settings.nodes = Object.keys(map).length
 	settings.data = buffer;
 	settings.Size = base;
 	window.start();

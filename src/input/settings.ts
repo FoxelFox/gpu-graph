@@ -3,6 +3,7 @@ export class Settings {
 	edges: number = 16;
 	indices: number[];
 	data
+	nodes: number;
 
 	set Size(s) {
 		this.size = s;
