@@ -6,6 +6,8 @@ uniform sampler2D image;
 uniform sampler3D edges;
 uniform vec2 mouse;
 uniform float forceActive;
+uniform float size;
+uniform float nodes;
 
 in vec2 v_texCoord;
 out vec4 outColor;
@@ -26,7 +28,7 @@ void main() {
         if (forceActive < 0.1) {
             for (int x = 0; x < 7; x++) {
 
-                vec3 ref = texelFetch(edges, ivec3(x, v_texCoord.x * 64.0,v_texCoord.y * 64.0), 0).xyz;
+                vec3 ref = texelFetch(edges, ivec3(x, v_texCoord.x * size,v_texCoord.y * size), 0).xyz;
 
                 if (ref.x >= 0.0) {
                     vec3 p = texelFetch(image, ivec2(ref.x, ref.y), 0).xyz;
@@ -34,6 +36,10 @@ void main() {
                     if (!(p.x == position.x && p.y == position.y)) {
                         float radius = distance(p, position);
                         float force = ref.z;
+
+                        if (radius > 0.2) {
+                            force *= 2.0;
+                        }
 
                         //if (radius > 0.2) {
                             velocity -= normalize(position - p) * force * 0.01;
@@ -46,8 +52,8 @@ void main() {
 
             }
 
-                 for (int x = 0; x < 64; x++) {
-                    for (int y = 0; y < 64; y++) {
+                 for (float x = 0.0; x < size; x++) {
+                    for (float y = 0.0; y < size; y++) {
 
                         vec4 pp = texelFetch(image, ivec2(x, y), 0);
 

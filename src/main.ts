@@ -60,17 +60,21 @@ function parse(lines: string[]) {
 
 	const data = [];
 	// TODO
-	// const base: number = Math.floor(Math.sqrt(Object.keys(map).length)) + 1;
-	maxEdges = 8;
-	const base = 64;
+	let base = Math.sqrt(Object.keys(map).length);
+	if (base % 1 !== 0) {
+		base = nextPo2(base + 1);
+	}
+	maxEdges = nextPo2(maxEdges);
 	for (const key in map) {
 
 		const edges = [];
 		for (const edge of map[key].edges) {
-			const index: number = map[edge.conc].id;
-			let y = Math.floor(index / base);
-			let x = index % base;
-			edges.push([x, y, edge.force / maxForce, 0])
+			if (map[edge.conc]) { // check was needed for some data sets
+				const index: number = map[edge.conc].id;
+				let y = Math.floor(index / base);
+				let x = index % base;
+				edges.push([x, y, edge.force / maxForce, 0])
+			}
 		}
 
 		// padding
@@ -88,10 +92,21 @@ function parse(lines: string[]) {
 		}
 	}
 
-	console.log(Object.keys(map).length);
+	console.log("Nodes: ", Object.keys(map).length);
+	console.log("Size: ", base);
+	console.log("Max. edges: ", maxEdges);
 
-	settings.nodes = Object.keys(map).length
+	settings.nodes = Object.keys(map).length;
 	settings.data = buffer;
 	settings.Size = base;
 	window.start();
+}
+
+function nextPo2(n: number) {
+	let i = 0;
+	while (n >= Math.pow(2, i)) {
+		i++;
+	}
+
+	return Math.pow(2, i);
 }

@@ -63,6 +63,7 @@ export class GravityPointNode extends Node {
         gl.uniformMatrix4fv(this.shader.getUniformLocation("translation"), true, this.translation);
 
         gl.uniform1f(this.shader.getUniformLocation("ar"), canvas.height / canvas.width);
+		gl.uniform1f(this.shader.getUniformLocation("size"), settings.size);
 
 
         gl.bindVertexArray(this.vao);
